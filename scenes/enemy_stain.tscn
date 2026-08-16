@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://c4yk2wsogp6wj"]
+
+[ext_resource type="Script" uid="uid://dr5jhlpelveck" path="res://scripts/enemy_stain.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://bi2r16qtk2r5p" path="res://assets/moco.png" id="2_moco"]
+
+[node name="EnemyStain" type="Sprite2D" unique_id=815556064]
+position = Vector2(-1, 1)
+scale = Vector2(1, 1)
+texture = ExtResource("2_moco")
+script = ExtResource("1_script")

@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://davmyjiw4lbgc"]
+
+[ext_resource type="Script" uid="uid://ckfx75qaid3b5" path="res://scripts/player.gd" id="1_script"]
+[ext_resource type="PackedScene" uid="uid://bn2iujrfwnnbj" path="res://scenes/bullet.tscn" id="3_bullet"]
+[ext_resource type="PackedScene" path="res://scenes/grenade.tscn" id="4_grenade"]
+[ext_resource type="PackedScene" path="res://scenes/expanding_ring.tscn" id="5_ring"]
+[ext_resource type="Texture2D" uid="uid://cwpf3jrt5n6yj" path="res://assets/TEST/player_ship_frame_0.png" id="6_tex"]
+
+[sub_resource type="CircleShape2D" id="circle_shape"]
+radius = 20.0
+
+[node name="Player" type="CharacterBody2D" unique_id=273357430]
+collision_mask = 3
+script = ExtResource("1_script")
+bullet_scene = ExtResource("3_bullet")
+grenade_scene = ExtResource("4_grenade")
+ring_scene = ExtResource("5_ring")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=665109977]
+texture = ExtResource("6_tex")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=241771784]
+shape = SubResource("circle_shape")

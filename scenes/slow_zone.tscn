@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scripts/slow_zone.gd" id="1_sz_script"]
+[ext_resource type="PackedScene" path="res://scenes/hex_shield.tscn" id="2_shield"]
+
+[sub_resource type="CircleShape2D" id="circle_shape"]
+radius = 140.0
+
+[node name="SlowZone" type="Area2D"]
+collision_layer = 0
+collision_mask = 1
+script = ExtResource("1_sz_script")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("circle_shape")
+
+[node name="HexShield" parent="." instance=ExtResource("2_shield")]

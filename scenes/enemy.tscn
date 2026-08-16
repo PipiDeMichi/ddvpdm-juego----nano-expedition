@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://c5ygu3w6lr6ss"]
+
+[ext_resource type="Script" uid="uid://cfyut54klklv0" path="res://scripts/enemy.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://bkcnbrxkdjeqs" path="res://assets/TEST/enemy_virus_frame_0.png" id="2_tex"]
+
+[sub_resource type="CircleShape2D" id="circle_shape"]
+radius = 28.0
+
+[sub_resource type="CircleShape2D" id="hitbox_shape"]
+radius = 36.0
+
+[node name="Enemy" type="CharacterBody2D" unique_id=1808162585]
+collision_mask = 3
+script = ExtResource("1_script")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=386484865]
+scale = Vector2(2.5, 2.5)
+texture = ExtResource("2_tex")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=339727090]
+shape = SubResource("circle_shape")
+
+[node name="Hitbox" type="Area2D" parent="." unique_id=87681926]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" unique_id=266709657]
+shape = SubResource("hitbox_shape")

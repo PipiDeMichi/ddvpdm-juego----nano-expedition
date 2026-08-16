@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Shader" path="res://shaders/hex_shield.gdshader" id="1_sh"]
+
+[sub_resource type="ShaderMaterial" id="hex_mat"]
+shader = ExtResource("1_sh")
+
+[node name="HexShield" type="Polygon2D"]
+material = SubResource("hex_mat")
+polygon = PackedVector2Array(0, 140, -121.24, 70, -121.24, -70, 0, -140, 121.24, -70, 121.24, 70)

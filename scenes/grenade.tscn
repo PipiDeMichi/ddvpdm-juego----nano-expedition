@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://dr4n2humwowcm"]
+
+[ext_resource type="Script" uid="uid://701frpvtl7x2" path="res://scripts/grenade.gd" id="1_g_script"]
+[ext_resource type="Texture2D" uid="uid://clmrsn7kugebt" path="res://assets/16x16mentabomb.png" id="2_g_tex"]
+[ext_resource type="PackedScene" path="res://scenes/slow_zone.tscn" id="3_sz_scene"]
+[ext_resource type="PackedScene" path="res://scenes/hex_shield.tscn" id="4_shield"]
+
+[node name="Grenade" type="Node2D" unique_id=1567864083]
+script = ExtResource("1_g_script")
+slow_zone_scene = ExtResource("3_sz_scene")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1606461941]
+position = Vector2(-1.9073486e-06, -1.9073486e-06)
+scale = Vector2(1.8749999, 2.1)
+texture = ExtResource("2_g_tex")
+
+[node name="Shield" parent="." instance=ExtResource("4_shield")]
+scale = Vector2(0.286, 0.286)

@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/item.gd" id="1_item_script"]
+
+[sub_resource type="CircleShape2D" id="circle_shape"]
+radius = 20.0
+
+[node name="Item" type="Area2D"]
+collision_layer = 0
+collision_mask = 1
+script = ExtResource("1_item_script")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(3, 3)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("circle_shape")

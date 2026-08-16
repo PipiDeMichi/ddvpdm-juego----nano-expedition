@@ -1,0 +1,389 @@
+[gd_scene format=3 uid="uid://cwg5mgd18806i"]
+
+[ext_resource type="Script" uid="uid://cjjidfv65xahg" path="res://scripts/game_manager.gd" id="1_gm_script"]
+[ext_resource type="Script" uid="uid://csvqjbi5pt5va" path="res://scripts/hud.gd" id="2_hud_script"]
+[ext_resource type="Script" uid="uid://8m6y7okg8ujv" path="res://scripts/virtual_joystick.gd" id="3_vjoy_script"]
+[ext_resource type="Texture2D" uid="uid://b4ckk5anaa58n" path="res://assets/TEST/joystick_base_frame_0.png" id="5_joy_base"]
+[ext_resource type="Texture2D" uid="uid://wjnd8s3ildii" path="res://assets/TEST/joystick_knob_frame_0.png" id="6_joy_knob"]
+[ext_resource type="PackedScene" uid="uid://davmyjiw4lbgc" path="res://scenes/player.tscn" id="7_player_scene"]
+[ext_resource type="PackedScene" uid="uid://c5ygu3w6lr6ss" path="res://scenes/enemy.tscn" id="8_enemy_scene"]
+[ext_resource type="PackedScene" path="res://scenes/obstacle.tscn" id="9_obstacle"]
+[ext_resource type="PackedScene" path="res://scenes/item.tscn" id="10_item"]
+[ext_resource type="PackedScene" uid="uid://cs1l73totgvjd" path="res://scenes/boss.tscn" id="11_boss"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hp_bg"]
+bg_color = Color(0.1, 0.05, 0.06, 0.9)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hp_fill"]
+bg_color = Color(0.2, 0.85, 0.35, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[node name="Game" type="Node2D" unique_id=1575278343]
+script = ExtResource("1_gm_script")
+player_scene = ExtResource("7_player_scene")
+enemy_scene = ExtResource("8_enemy_scene")
+obstacle_scene = ExtResource("9_obstacle")
+item_scene = ExtResource("10_item")
+boss_scene = ExtResource("11_boss")
+
+[node name="HUD" type="Control" parent="." unique_id=167903476]
+z_index = 100
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2_hud_script")
+
+[node name="ScoreLabel" type="Label" parent="HUD" unique_id=325064016]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 14.0
+offset_top = 53.0
+offset_right = 394.0
+offset_bottom = 87.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 24
+text = "SCORE: 0"
+
+[node name="HealthBar" type="ProgressBar" parent="HUD" unique_id=298843445]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 361.0
+offset_top = 27.0
+offset_right = 926.0
+offset_bottom = 55.0
+theme_override_styles/background = SubResource("StyleBoxFlat_hp_bg")
+theme_override_styles/fill = SubResource("StyleBoxFlat_hp_fill")
+max_value = 3.0
+value = 3.0
+show_percentage = false
+
+[node name="DashLabel" type="Label" parent="HUD" unique_id=983120]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 13.0
+offset_top = 100.0
+offset_right = 313.0
+offset_bottom = 123.0
+theme_override_colors/font_color = Color(0.9, 0.9, 0.4, 1)
+theme_override_font_sizes/font_size = 16
+text = "DASH 100% (5/5)"
+
+[node name="PauseButton" type="Button" parent="HUD" unique_id=1000000016]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -195.0
+offset_top = 22.0
+offset_right = -95.0
+offset_bottom = 66.0
+grow_horizontal = 0
+theme_override_font_sizes/font_size = 18
+text = "PAUSE"
+
+[node name="BombButton" type="Button" parent="HUD" unique_id=983121]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -492.0
+offset_top = 585.0
+offset_right = -252.0
+offset_bottom = 655.0
+grow_horizontal = 0
+theme_override_font_sizes/font_size = 16
+text = "BOMB 3"
+
+[node name="GrenadeButton" type="Button" parent="HUD" unique_id=983122]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -249.0
+offset_top = 585.0
+offset_right = -9.0
+offset_bottom = 655.0
+grow_horizontal = 0
+theme_override_font_sizes/font_size = 16
+text = "GRENADE"
+
+[node name="MoveJoystick" type="Control" parent="HUD" unique_id=1923841720]
+unique_name_in_owner = true
+visible = false
+anchors_preset = 0
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 30.0
+offset_top = -220.0
+offset_right = 220.0
+offset_bottom = -30.0
+script = ExtResource("3_vjoy_script")
+
+[node name="Base" type="TextureRect" parent="HUD/MoveJoystick" unique_id=1001943557]
+layout_mode = 0
+offset_left = 30.0
+offset_top = 15.0
+offset_right = 160.0
+offset_bottom = 145.0
+texture = ExtResource("5_joy_base")
+stretch_mode = 1
+
+[node name="Knob" type="TextureRect" parent="HUD/MoveJoystick" unique_id=36747170]
+layout_mode = 0
+offset_left = 70.0
+offset_top = 55.0
+offset_right = 120.0
+offset_bottom = 105.0
+texture = ExtResource("6_joy_knob")
+stretch_mode = 1
+
+[node name="AimJoystick" type="Control" parent="HUD" unique_id=833875924]
+unique_name_in_owner = true
+visible = false
+anchors_preset = 0
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -220.0
+offset_top = -220.0
+offset_right = -30.0
+offset_bottom = -30.0
+script = ExtResource("3_vjoy_script")
+
+[node name="Base" type="TextureRect" parent="HUD/AimJoystick" unique_id=2015797338]
+layout_mode = 0
+offset_left = 30.0
+offset_top = 15.0
+offset_right = 160.0
+offset_bottom = 145.0
+texture = ExtResource("5_joy_base")
+stretch_mode = 1
+
+[node name="Knob" type="TextureRect" parent="HUD/AimJoystick" unique_id=999361321]
+layout_mode = 0
+offset_left = 70.0
+offset_top = 55.0
+offset_right = 120.0
+offset_bottom = 105.0
+texture = ExtResource("6_joy_knob")
+stretch_mode = 1
+
+[node name="GameOverLabel" type="Label" parent="HUD" unique_id=968526047]
+unique_name_in_owner = true
+visible = false
+layout_mode = 0
+offset_left = 314.0
+offset_top = 209.0
+offset_right = 1114.0
+offset_bottom = 289.0
+theme_override_colors/font_color = Color(1, 0.3, 0.3, 1)
+theme_override_font_sizes/font_size = 32
+text = "GAME OVER"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RestartButton" type="Button" parent="HUD" unique_id=1491881509]
+unique_name_in_owner = true
+visible = false
+layout_mode = 0
+offset_left = 566.0
+offset_top = 315.0
+offset_right = 874.0
+offset_bottom = 365.0
+theme_override_font_sizes/font_size = 20
+text = "PLAY AGAIN"
+
+[node name="ContinueButton" type="Button" parent="HUD" unique_id=2112396743]
+unique_name_in_owner = true
+visible = false
+layout_mode = 0
+offset_left = 566.0
+offset_top = 372.0
+offset_right = 874.0
+offset_bottom = 422.0
+theme_override_font_sizes/font_size = 20
+text = "CONTINUE"
+
+[node name="BossLabel" type="Label" parent="HUD" unique_id=891026679]
+unique_name_in_owner = true
+visible = false
+layout_mode = 0
+offset_left = 400.0
+offset_top = 655.0
+offset_right = 880.0
+offset_bottom = 690.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 20
+text = "BOSS"
+horizontal_alignment = 1
+
+[node name="BossHealthBar" type="ProgressBar" parent="HUD" unique_id=171655237]
+unique_name_in_owner = true
+visible = false
+modulate = Color(18.892157, 0, 0, 0.96862745)
+layout_mode = 0
+offset_left = 440.0
+offset_top = 683.0
+offset_right = 840.0
+offset_bottom = 700.0
+value = 100.0
+show_percentage = false
+
+[node name="WarningLabel" type="Label" parent="HUD" unique_id=1242364669]
+unique_name_in_owner = true
+visible = false
+layout_mode = 0
+offset_left = 120.0
+offset_top = 280.0
+offset_right = 1160.0
+offset_bottom = 360.0
+theme_override_colors/font_color = Color(1, 0.1, 0.1, 1)
+theme_override_font_sizes/font_size = 30
+text = "WARNING: VIRUS ON THE WAY..."
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BossStunLabel" type="Label" parent="HUD" unique_id=1413458141]
+unique_name_in_owner = true
+visible = false
+layout_mode = 0
+offset_left = 270.0
+offset_top = 250.0
+offset_right = 1010.0
+offset_bottom = 320.0
+theme_override_colors/font_color = Color(0.4, 0.7, 1, 1)
+theme_override_font_sizes/font_size = 44
+text = "BOSS STUNED"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DarkOverlay" type="ColorRect" parent="HUD" unique_id=237899115]
+unique_name_in_owner = true
+visible = false
+z_index = 50
+layout_mode = 0
+offset_right = 1280.0
+offset_bottom = 720.0
+mouse_filter = 2
+color = Color(0, 0, 0, 0)
+
+[node name="ScoreboardPanel" type="PanelContainer" parent="HUD" unique_id=1000000001]
+unique_name_in_owner = true
+z_index = 200
+layout_mode = 0
+offset_left = 16.0
+offset_top = 281.0
+offset_right = 231.0
+offset_bottom = 560.0
+
+[node name="VBox" type="VBoxContainer" parent="HUD/ScoreboardPanel" unique_id=1000000002]
+layout_mode = 2
+
+[node name="ScoreboardScore" type="Label" parent="HUD/ScoreboardPanel/VBox" unique_id=1000000003]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.3, 1)
+theme_override_font_sizes/font_size = 24
+text = "Final Score: 0"
+horizontal_alignment = 1
+
+[node name="EnemiesLabel" type="Label" parent="HUD/ScoreboardPanel/VBox" unique_id=1000000004]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 19
+text = "Enemies killed: 0"
+horizontal_alignment = 1
+
+[node name="DashesLabel" type="Label" parent="HUD/ScoreboardPanel/VBox" unique_id=1000000005]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 19
+text = "Dashes used: 0"
+horizontal_alignment = 1
+
+[node name="DamageLabel" type="Label" parent="HUD/ScoreboardPanel/VBox" unique_id=1000000006]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 19
+text = "Damage taken: 0"
+horizontal_alignment = 1
+
+[node name="BombsLabel" type="Label" parent="HUD/ScoreboardPanel/VBox" unique_id=1000000007]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 19
+text = "Bombs used: 0"
+horizontal_alignment = 1
+
+[node name="GrenadesLabel" type="Label" parent="HUD/ScoreboardPanel/VBox" unique_id=1000000008]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 19
+text = "Grenades thrown: 0"
+horizontal_alignment = 1
+
+[node name="ComboLabel" type="Label" parent="HUD/ScoreboardPanel/VBox" unique_id=1000000009]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.5, 1, 0.6, 1)
+theme_override_font_sizes/font_size = 19
+text = "Max combo: x0"
+horizontal_alignment = 1
+
+[node name="DurationLabel" type="Label" parent="HUD/ScoreboardPanel/VBox" unique_id=1000000010]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 19
+text = "Duration: 0:00"
+horizontal_alignment = 1
+
+[node name="PausePanel" type="PanelContainer" parent="HUD" unique_id=1000000011]
+unique_name_in_owner = true
+z_index = 300
+layout_mode = 0
+offset_left = 460.0
+offset_top = 230.0
+offset_right = 820.0
+offset_bottom = 387.0
+
+[node name="VBox" type="VBoxContainer" parent="HUD/PausePanel" unique_id=1000000012]
+layout_mode = 2
+
+[node name="PauseTitle" type="Label" parent="HUD/PausePanel/VBox" unique_id=1000000013]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 28
+text = "PAUSED"
+horizontal_alignment = 1
+
+[node name="PauseResumeButton" type="Button" parent="HUD/PausePanel/VBox" unique_id=1000000014]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "RESUME"
+
+[node name="PauseSaveMenuButton" type="Button" parent="HUD/PausePanel/VBox" unique_id=1000000015]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "SAVE & MENU"

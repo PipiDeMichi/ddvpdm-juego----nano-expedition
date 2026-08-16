@@ -1,0 +1,33 @@
+[gd_scene format=3 uid="uid://cs1l73totgvjd"]
+
+[ext_resource type="Script" uid="uid://gjk2whw7885h" path="res://scripts/boss.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://cq26igmwu2wyj" path="res://assets/TEST/enemy_asteroid_frame_0.png" id="2_tex"]
+[ext_resource type="PackedScene" path="res://scenes/boss_bullet.tscn" id="3_bullet"]
+[ext_resource type="PackedScene" path="res://scenes/slow_bomb.tscn" id="4_slowbomb"]
+[ext_resource type="PackedScene" uid="uid://c5ygu3w6lr6ss" path="res://scenes/enemy.tscn" id="5_enemy"]
+
+[sub_resource type="CircleShape2D" id="body_shape"]
+radius = 60.0
+
+[sub_resource type="CircleShape2D" id="hitbox_shape"]
+radius = 85.0
+
+[node name="Boss" type="CharacterBody2D" unique_id=671075450]
+collision_mask = 3
+script = ExtResource("1_script")
+bullet_scene = ExtResource("3_bullet")
+slow_bomb_scene = ExtResource("4_slowbomb")
+enemy_scene = ExtResource("5_enemy")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1282916252]
+scale = Vector2(4, 4)
+texture = ExtResource("2_tex")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1141566672]
+shape = SubResource("body_shape")
+
+[node name="Hitbox" type="Area2D" parent="." unique_id=1168474230]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" unique_id=221243493]
+shape = SubResource("hitbox_shape")

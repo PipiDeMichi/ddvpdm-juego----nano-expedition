@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://duaqa4q1jtwkc"]
+
+[ext_resource type="Script" uid="uid://rpiqbdokc7hm" path="res://scripts/slow_bomb.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://bui3ebfei5i3c" path="res://assets/TEST/bacteria_bomb.png" id="2_tex"]
+[ext_resource type="PackedScene" path="res://scenes/player_slow_zone.tscn" id="3_zone"]
+
+[node name="SlowBomb" type="Node2D" unique_id=1710500945]
+script = ExtResource("1_script")
+slow_zone_scene = ExtResource("3_zone")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1444455265]
+modulate = Color(1, 0.7, 0.2, 1)
+position = Vector2(-9.536743e-07, 0)
+scale = Vector2(1.75, 1.7954546)
+texture = ExtResource("2_tex")

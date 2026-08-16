@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://b5bpog3gytd1d"]
+
+[ext_resource type="Script" uid="uid://dvs3jjiioetfi" path="res://scripts/expanding_ring.gd" id="1_ring"]
+
+[node name="ExpandingRing" type="Node2D" unique_id=718136395]
+scale = Vector2(1.59, 1.59)
+script = ExtResource("1_ring")
+color = Color(0.62326825, 0.9375267, 0.9999998, 1)

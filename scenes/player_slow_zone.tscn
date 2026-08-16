@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scripts/player_slow_zone.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://assets/area.png" uid="uid://bdbxe8jj45486" id="2_area"]
+
+[sub_resource type="CircleShape2D" id="shape"]
+radius = 63.0
+
+[node name="PlayerSlowZone" type="Area2D"]
+collision_layer = 0
+collision_mask = 1
+script = ExtResource("1_script")
+
+[node name="Visual" type="Sprite2D" parent="."]
+texture = ExtResource("2_area")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("shape")
