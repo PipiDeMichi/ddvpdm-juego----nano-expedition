@@ -36,6 +36,13 @@ const DASH_SOUNDS: Array = [
 	preload("res://assets/Audios/stryder_dash_2ch_v1_03.wav"),
 	preload("res://assets/Audios/stryder_dash_2ch_v1_04.wav"),
 ]
+const DANO_SOUNDS: Array = [
+	preload("res://assets/Audios/mixkit-boxing-punch-2051.wav")
+]
+
+## Sound played when the player picks up a stamina/dash-recharge item
+const STAMINA_SOUND := preload("res://assets/Audios/mixkit-video-game-retro-click-237.wav")
+
 
 ## Movement speed in pixels per second
 @export var move_speed: float = 300.0
@@ -419,7 +426,22 @@ func refill_dashes(count: int = -1) -> void:
 	else:
 		dashes = min(max_dashes, dashes + count)
 	dashes_changed.emit(dashes, max_dashes)
+	_play_stamina_sound()	
 
+## Play the stamina/dash-recharge pickup sound at the player's position.
+func _play_stamina_sound() -> void:
+	var container: Node = get_tree().get_first_node_in_group("game_manager")
+	if container == null:
+		container = get_tree().current_scene
+	if container == null:
+		return
+	var sfx := AudioStreamPlayer2D.new()
+	sfx.stream = STAMINA_SOUND
+	sfx.global_position = global_position
+	sfx.volume_db = 6.0
+	sfx.finished.connect(sfx.queue_free)
+	container.add_child(sfx)
+	sfx.play()
 
 ## Spawn a fading afterimage behind the player (the dash trail). It copies the
 ## ship sprite, then fades out and frees itself, so the trail appears during
@@ -513,26 +535,42 @@ func _play_shoot_sound() -> void:
 	sfx.play()
 
 
+## Play a random one of the damage sounds at the player's position.
+func _play_dano_sound() -> void:
+	if DANO_SOUNDS.is_empty():
+		return
+	var container: Node = get_tree().get_first_node_in_group("game_manager")
+	if container == null:
+		container = get_tree().current_scene
+	if container == null:
+		return
+	var stream: AudioStream = DANO_SOUNDS[randi() % DANO_SOUNDS.size()] as AudioStream
+	var sfx := AudioStreamPlayer2D.new()
+	sfx.stream = stream
+	sfx.global_position = global_position
+	sfx.volume_db = 6.0
+	sfx.finished.connect(sfx.queue_free)
+	container.add_child(sfx)
+	sfx.play()
+	
+	
 func take_damage(amount: int = 1) -> void:
 	if _is_invincible or _is_dashing:
 		return
-
 	health -= amount
 	health_changed.emit(health)
 	_flash_hit()
-
+	_play_dano_sound()
 	# Record damage taken for the end-of-run scoreboard
 	var gm: GameManager = get_tree().get_first_node_in_group("game_manager") as GameManager
 	if gm:
 		gm.damage_taken += amount
-
 	if health <= 0:
 		player_died.emit()
 		queue_free()
 	else:
 		_is_invincible = true
 		_invincibility_timer = invincibility_time
-
 
 ## Flash the ship white for a brief moment when it takes damage.
 func _flash_hit() -> void:

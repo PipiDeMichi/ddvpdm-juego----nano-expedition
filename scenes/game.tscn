@@ -2,9 +2,7 @@
 
 [ext_resource type="Script" uid="uid://cjjidfv65xahg" path="res://scripts/game_manager.gd" id="1_gm_script"]
 [ext_resource type="Script" uid="uid://csvqjbi5pt5va" path="res://scripts/hud.gd" id="2_hud_script"]
-[ext_resource type="Script" uid="uid://8m6y7okg8ujv" path="res://scripts/virtual_joystick.gd" id="3_vjoy_script"]
-[ext_resource type="Texture2D" uid="uid://b4ckk5anaa58n" path="res://assets/TEST/joystick_base_frame_0.png" id="5_joy_base"]
-[ext_resource type="Texture2D" uid="uid://wjnd8s3ildii" path="res://assets/TEST/joystick_knob_frame_0.png" id="6_joy_knob"]
+[ext_resource type="Script" uid="uid://dplb6vxgovod" path="res://scripts/virtual_joystick.gd" id="3_vjoy_script"]
 [ext_resource type="PackedScene" uid="uid://davmyjiw4lbgc" path="res://scenes/player.tscn" id="7_player_scene"]
 [ext_resource type="PackedScene" uid="uid://c5ygu3w6lr6ss" path="res://scenes/enemy.tscn" id="8_enemy_scene"]
 [ext_resource type="PackedScene" path="res://scenes/obstacle.tscn" id="9_obstacle"]
@@ -80,6 +78,7 @@ text = "DASH 100% (5/5)"
 
 [node name="PauseButton" type="Button" parent="HUD" unique_id=1000000016]
 unique_name_in_owner = true
+visible = false
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
@@ -95,92 +94,80 @@ text = "PAUSE"
 [node name="BombButton" type="Button" parent="HUD" unique_id=983121]
 unique_name_in_owner = true
 layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -492.0
-offset_top = 585.0
-offset_right = -252.0
-offset_bottom = 655.0
-grow_horizontal = 0
-theme_override_font_sizes/font_size = 16
-text = "BOMB 3"
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -230.5
+offset_top = -132.0
+offset_right = -49.5
+offset_bottom = -62.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_font_sizes/font_size = 18
+text = "BOMB x3"
 
 [node name="GrenadeButton" type="Button" parent="HUD" unique_id=983122]
 unique_name_in_owner = true
 layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -249.0
-offset_top = 585.0
-offset_right = -9.0
-offset_bottom = 655.0
-grow_horizontal = 0
-theme_override_font_sizes/font_size = 16
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = 35.5
+offset_top = -132.0
+offset_right = 230.5
+offset_bottom = -62.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_font_sizes/font_size = 18
 text = "GRENADE"
+
+[node name="DeviceLabel" type="Label" parent="HUD" unique_id=1000000017]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -233.0
+offset_top = -20.0
+offset_right = 231.0
+offset_bottom = -2.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_color = Color(0.6, 0.85, 1, 0.85)
+theme_override_font_sizes/font_size = 14
+text = "device: keyboard and mouse"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="MoveJoystick" type="Control" parent="HUD" unique_id=1923841720]
 unique_name_in_owner = true
-visible = false
 anchors_preset = 0
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_left = 30.0
-offset_top = -220.0
-offset_right = 220.0
-offset_bottom = -30.0
+offset_left = 24.0
+offset_top = -284.0
+offset_right = 304.0
+offset_bottom = -24.0
 script = ExtResource("3_vjoy_script")
-
-[node name="Base" type="TextureRect" parent="HUD/MoveJoystick" unique_id=1001943557]
-layout_mode = 0
-offset_left = 30.0
-offset_top = 15.0
-offset_right = 160.0
-offset_bottom = 145.0
-texture = ExtResource("5_joy_base")
-stretch_mode = 1
-
-[node name="Knob" type="TextureRect" parent="HUD/MoveJoystick" unique_id=36747170]
-layout_mode = 0
-offset_left = 70.0
-offset_top = 55.0
-offset_right = 120.0
-offset_bottom = 105.0
-texture = ExtResource("6_joy_knob")
-stretch_mode = 1
 
 [node name="AimJoystick" type="Control" parent="HUD" unique_id=833875924]
 unique_name_in_owner = true
-visible = false
 anchors_preset = 0
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -220.0
-offset_top = -220.0
-offset_right = -30.0
-offset_bottom = -30.0
+offset_left = -304.0
+offset_top = -284.0
+offset_right = -24.0
+offset_bottom = -24.0
 script = ExtResource("3_vjoy_script")
-
-[node name="Base" type="TextureRect" parent="HUD/AimJoystick" unique_id=2015797338]
-layout_mode = 0
-offset_left = 30.0
-offset_top = 15.0
-offset_right = 160.0
-offset_bottom = 145.0
-texture = ExtResource("5_joy_base")
-stretch_mode = 1
-
-[node name="Knob" type="TextureRect" parent="HUD/AimJoystick" unique_id=999361321]
-layout_mode = 0
-offset_left = 70.0
-offset_top = 55.0
-offset_right = 120.0
-offset_bottom = 105.0
-texture = ExtResource("6_joy_knob")
-stretch_mode = 1
 
 [node name="GameOverLabel" type="Label" parent="HUD" unique_id=968526047]
 unique_name_in_owner = true

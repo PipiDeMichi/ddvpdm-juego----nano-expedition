@@ -15,6 +15,10 @@ const LIMIT_TEXTURE := preload("res://assets/limit.png")
 ## The player-allowed combat rectangle (centered on screen), computed at startup
 var combat_rect := Rect2()
 
+## When true, the touch (mobile) layout is forced on regardless of the detected
+## device, so the player can preview how the game looks on a phone. Toggle with ENTER.
+var _manual_mobile: bool = false
+
 ## Parallax background script, attached to a Background node created at startup
 const BACKGROUND_SCRIPT := preload("res://scripts/background.gd")
 ## Reference to the parallax background node
@@ -323,12 +327,60 @@ func _assign_virtual_joysticks() -> void:
 		player.move_joystick = move_joy
 		player.aim_joystick = aim_joy
 
-	# Show/hide based on touch capability
-	var has_touch: bool = DisplayServer.is_touchscreen_available()
+	_apply_control_layout()
+
+
+const DEVICE_KEYBOARD_MOUSE := "keyboard and mouse"
+const DEVICE_TOUCH := "phone"
+
+
+## The device currently shown: a manual ENTER toggle overrides auto-detection.
+func _effective_device() -> String:
+	if _manual_mobile:
+		return DEVICE_TOUCH
+	return _detect_device()
+
+
+func _detect_device() -> String:
+	var os: String = OS.get_name()
+	if os == "Android" or os == "iOS":
+		return DEVICE_TOUCH
+	# Any desktop OS (Windows, macOS, Linux, etc.) is treated as keyboard+mouse.
+	return DEVICE_KEYBOARD_MOUSE
+
+
+## Apply the current control layout (joysticks + buttons + device label).
+func _apply_control_layout() -> void:
+	var device: String = _effective_device()
+	var is_touch: bool = device == DEVICE_TOUCH
+
+	var move_joy: TouchJoystick = get_node_or_null("HUDLayer/HUD/MoveJoystick") as TouchJoystick
+	var aim_joy: TouchJoystick = get_node_or_null("HUDLayer/HUD/AimJoystick") as TouchJoystick
+
+	# Joysticks are touch-only. The action buttons stay visible on ALL devices
+	# so the player can always see ability cooldowns. Pause is always shown.
 	if move_joy:
-		move_joy.visible = has_touch
+		move_joy.visible = is_touch
 	if aim_joy:
-		aim_joy.visible = has_touch
+		aim_joy.visible = is_touch
+	for bname: String in ["BombButton", "GrenadeButton"]:
+		var b: Control = get_node_or_null("HUDLayer/HUD/" + bname) as Control
+		if b:
+			b.visible = true
+	var pbtn: Control = get_node_or_null("HUDLayer/HUD/PauseButton") as Control
+	if pbtn:
+		pbtn.visible = true
+
+	# Show which device was detected, bottom-center of the screen.
+	var dlbl: Label = get_node_or_null("HUDLayer/HUD/DeviceLabel") as Label
+	if dlbl:
+		dlbl.text = "device: " + device
+
+
+## Toggle the forced mobile-layout preview (ENTER).
+func _toggle_mobile_preview() -> void:
+	_manual_mobile = not _manual_mobile
+	_apply_control_layout()
 
 
 func _try_spawn_enemy() -> void:
@@ -754,10 +806,15 @@ func _show_game_over() -> void:
 			restart_button.visible = true
 
 
-## Pressing ESC toggles the in-game pause menu (which also offers "Save & Menu").
+## Pressing ESC toggles the in-game pause menu. ENTER toggles the mobile-layout
+## preview so the player can see how the touch controls look.
 func _unhandled_input(event: InputEvent) -> void:
-	if event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_ESCAPE:
-		toggle_pause()
+	if event is InputEventKey and event.pressed and not event.echo:
+		if event.keycode == KEY_ENTER:
+			_toggle_mobile_preview()
+			get_viewport().set_input_as_handled()
+		elif event.keycode == KEY_ESCAPE:
+			toggle_pause()
 
 
 ## Open/close the in-game pause menu.
